@@ -6,37 +6,68 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:41:31 by egache            #+#    #+#             */
-/*   Updated: 2025/03/12 19:36:51 by egache           ###   ########.fr       */
+/*   Updated: 2025/03/13 18:28:06 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _POSIX_C_SOURCE 200809L
 // #include "minitalk.h"
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-// void	signal_handler(int signum)
-// {
-// 	int bit;
+typedef struct sigaction	t_sigaction;
+volatile sig_atomic_t know = 1;
 
-// 	if (signum == SIGUSR1)
-// 		bit = 1;
-// 	else if (signum == SIGUSR2)
-// 		bit = 0;
-// }
+void	client_signal_handler(int signum)
+{
+	(void)signum;
+	know = 0;
+
+}
 
 int	main(int argc, char **argv)
 {
 	char	*msg;
+	char	*binstr;
 	pid_t	pid;
+	int		i;
+	int		j;
+	t_sigaction action;
 
+	if (argc != 3)
+		return (1);
 	pid = atoi(argv[1]);
 	msg = argv[2];
-	if (msg[0] == '0')
-		kill(pid, SIGUSR2);
-	if (msg[0] == '1')
-		kill(pid, SIGUSR1);
-	// signal(SIGUSR1, signal_handler);
-	// signal(SIGUSR2, signal_handler);
+	binstr = msg;
+	i = 0;
+	j = 7;
+	printf("PID : %d\n", getpid());
+	action.sa_handler = client_signal_handler;
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = 0;
+	sigaction(SIGUSR1, &action, NULL);
+	while (msg[i] != '\0' && msg)
+	{
+		while (j >= 0)
+		{
+			if (((msg[i] >> j) & 1) == 0)
+			{
+				printf("SIGUSR2 : %d\n", ((msg[i] >> j) & 1));
+				kill(pid, SIGUSR2);
+			}
+			else if (((msg[i] >> j) & 1) == 1)
+			{
+				printf("SIGUSR1 : %d\n", ((msg[i] >> j) & 1));
+				kill(pid, SIGUSR1);
+			}
+			while(know != 0)
+				pause();
+			know = 1;
+			j--;
+		}
+		j = 7;
+		i++;
+	}
 }
