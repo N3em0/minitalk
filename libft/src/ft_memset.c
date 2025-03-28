@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:37:39 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 18:58:51 by egache           ###   ########.fr       */
+/*   Created: 2024/11/06 13:45:32 by egache            #+#    #+#             */
+/*   Updated: 2024/11/27 16:36:21 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# define _POSIX_C_SOURCE 200809L
-
-# include "ft_printf.h"
-# include "libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct sigaction	t_sigaction;
-
-volatile sig_atomic_t		know = 1;
-
-typedef struct s_lst
+void	*ft_memset(void *str, int c, size_t n)
 {
-	void					*value;
-	struct s_list			*next;
-}							t_lst;
+	char	*s;
 
-#endif
+	s = (char *)str;
+	while (n > 0)
+	{
+		s[n - 1] = c;
+		n--;
+	}
+	return (str);
+}
+/*
+int	main(void)
+{
+	char buffer[50];
+	ft_memset(buffer, '*', sizeof(buffer) - 1);
+	buffer[49] = '\0';
+
+	printf("Buffer %s\n", buffer);
+	printf("Buffer Size %lu\n", sizeof(buffer));
+	return (0);
+}*/

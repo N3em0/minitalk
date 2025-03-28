@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:37:39 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 18:58:51 by egache           ###   ########.fr       */
+/*   Created: 2024/11/15 12:29:50 by egache            #+#    #+#             */
+/*   Updated: 2025/03/14 14:33:35 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# define _POSIX_C_SOURCE 200809L
-
-# include "ft_printf.h"
-# include "libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct sigaction	t_sigaction;
-
-volatile sig_atomic_t		know = 1;
-
-typedef struct s_lst
+int	ft_memcmp(const void *str1, const void *str2, size_t n)
 {
-	void					*value;
-	struct s_list			*next;
-}							t_lst;
+	size_t				i;
+	const unsigned char	*s1;
+	const unsigned char	*s2;
 
-#endif
+	s1 = (const unsigned char *)str1;
+	s2 = (const unsigned char *)str2;
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (s1[i] == s2[i] && i < n - 1)
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}

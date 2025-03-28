@@ -6,13 +6,12 @@
 #    By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 15:58:15 by egache            #+#    #+#              #
-#    Updated: 2025/03/12 11:36:56 by egache           ###   ########.fr        #
+#    Updated: 2025/03/28 18:25:29 by egache           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-LIBS		:=	gnl ft printf
+LIBS		:=	ft printf
 LIBS_TARGET	:=					\
-	get_next_line/libgnl.a		\
 	libft/libft.a				\
 	ft_printf/libprintf.a		\
 
@@ -20,22 +19,25 @@ HEADER := include/minitalk.h	\
 
 HEAD		:=					\
 include							\
-get_next_line/include			\
 libft/include					\
 ft_printf/include				\
 
-NAME	:=	minitalk
+NAME_CLIENT	:=	client
+NAME_SERVER :=	server
 
-SRC_DIR	:=	src
-SRC		:=						\
-minitalk.c						\
+SRC_DIR		:=	src
+SRC_SERVER	:=	server.c
+SRC_CLIENT	:=	client.c
 
-SRC		:=	$(SRC:%=$(SRC_DIR)/%)
+SRC_CLIENT	:=	$(SRC_CLIENT:%=$(SRC_DIR)/%)
+SRC_SERVER	:=	$(SRC_SERVER:%=$(SRC_DIR)/%)
 
 
 BUILD_DIR:=	.build
-OBJ		:=	$(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-DEP		:=	$(OBJ:%.o=.d)
+OBJ_CLIENT	:=	$(SRC_CLIENT:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+OBJ_SERVER	:=	$(SRC_SERVER:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+DEP_CLIENT	:=	$(OBJ_CLIENT:%.o=.d)
+DEP_SERVER	:=	$(OBJ_SERVER:%.o=.d)
 
 AR	:=	ar -rcs
 
@@ -59,14 +61,18 @@ WHITE 		:= \033[0m
 BLUE		:= \033[0;34m
 PURPLE		:= \e[1;35m
 
-all:		.printsep $(NAME)
+all:		.printsep $(NAME_CLIENT) $(NAME_SERVER)
 			echo "$(BOLDBLUE)$(NAME) $(WHITE)compilation $(BOLDGREEN)done"
 			$(call SEPARATOR)
 
-$(NAME)	:	$(OBJ) $(LIBS_TARGET) $(HEADER)
-			$(CC) $(LIBDIR) $(OBJ) $(LIBNAME) -o $(NAME)
+$(NAME_CLIENT)	:	$(OBJ_CLIENT) $(LIBS_TARGET) $(HEADER)
+			$(CC) $(LIBDIR) $(OBJ_CLIENT) $(LIBNAME) -o $(NAME_CLIENT)
+			echo "$(BOLDBLUE)$(NAME_CLIENT) $(WHITE)compilation $(BOLDGREEN)done"
 			$(call SEPARATOR)
-			echo "$(BOLDBLUE)$(NAME) $(WHITE)compilation  $(YELLOW)..."
+
+$(NAME_SERVER)	:	$(OBJ_SERVER) $(LIBS_TARGET) $(HEADER)
+			$(CC) $(LIBDIR) $(OBJ_SERVER) $(LIBNAME) -o $(NAME_SERVER)
+			echo "$(BOLDBLUE)$(NAME_SERVER) $(WHITE)compilation $(BOLDGREEN)done"
 			$(call SEPARATOR)
 
 $(LIBS_TARGET)	: FORCE
@@ -81,17 +87,15 @@ $(BUILD_DIR)/%.o:	$(SRC_DIR)/%.c
 -include $(DEP)
 
 clean:
-			$(RM) $(OBJ) $(DEP)
+			$(RM) $(OBJ_CLIENT) $(OBJ_SERVER) $(DEP_CLIENT) $(DEP_SERVER)
 			$(RMF) $(BUILD_DIR)
-			$(MAKE) clean -C get_next_line
 			$(MAKE) clean -C libft
 			$(MAKE) clean -C ft_printf
 
 fclean:	clean
 			$(call SEPARATOR)
 			echo "$(BOLDBLUE)$(NAME) $(WHITE)fclean  $(YELLOW)..."
-			$(RM) $(NAME)
-			$(MAKE) fclean -C get_next_line
+			$(RM) $(NAME_CLIENT) $(NAME_SERVER)
 			$(MAKE) fclean -C libft
 			$(MAKE) fclean -C ft_printf
 			$(call SEPARATOR)
@@ -108,7 +112,7 @@ FORCE :
 
 .PHONY:	all clean fclean FORCE re
 
-.SILENT:
+#.SILENT:
 
 define	SEPARATOR
 						@echo "\n$(PURPLE)--------------------------\n";

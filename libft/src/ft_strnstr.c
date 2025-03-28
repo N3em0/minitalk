@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:37:39 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 18:58:51 by egache           ###   ########.fr       */
+/*   Created: 2024/11/15 18:48:17 by egache            #+#    #+#             */
+/*   Updated: 2024/11/27 16:38:20 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# define _POSIX_C_SOURCE 200809L
-
-# include "ft_printf.h"
-# include "libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct sigaction	t_sigaction;
-
-volatile sig_atomic_t		know = 1;
-
-typedef struct s_lst
+char	*ft_strnstr(const char *str, const char *to_find, size_t n)
 {
-	void					*value;
-	struct s_list			*next;
-}							t_lst;
+	size_t	i;
+	size_t	j;
 
-#endif
+	i = 0;
+	j = 0;
+	if (to_find[j] == '\0')
+		return ((char *)str);
+	while (str[i] && i < n)
+	{
+		while (str[i + j] == to_find[j] && (i + j) < n)
+		{
+			j++;
+			if (to_find[j] == '\0')
+				return ((char *)str + i);
+		}
+		j = 0;
+		i++;
+	}
+	return (NULL);
+}

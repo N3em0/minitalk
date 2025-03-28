@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:37:39 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 18:58:51 by egache           ###   ########.fr       */
+/*   Created: 2024/11/19 16:37:32 by egache            #+#    #+#             */
+/*   Updated: 2024/12/12 15:03:13 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# define _POSIX_C_SOURCE 200809L
-
-# include "ft_printf.h"
-# include "libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct sigaction	t_sigaction;
-
-volatile sig_atomic_t		know = 1;
-
-typedef struct s_lst
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
-	void					*value;
-	struct s_list			*next;
-}							t_lst;
+	char	*str;
+	size_t	i;
 
-#endif
+	i = 0;
+	str = (char *)malloc(sizeof(char) * ft_strlen((char *)s) + 1);
+	if (!str)
+		return (NULL);
+	while (s[i])
+	{
+		str[i] = f(i, s[i]);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}

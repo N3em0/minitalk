@@ -6,41 +6,30 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:41:31 by egache            #+#    #+#             */
-/*   Updated: 2025/03/13 18:28:06 by egache           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:35:25 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _POSIX_C_SOURCE 200809L
-// #include "minitalk.h"
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-typedef struct sigaction	t_sigaction;
-volatile sig_atomic_t know = 1;
+#include "minitalk.h"
 
 void	client_signal_handler(int signum)
 {
 	(void)signum;
 	know = 0;
-
 }
 
 int	main(int argc, char **argv)
 {
-	char	*msg;
-	char	*binstr;
-	pid_t	pid;
-	int		i;
-	int		j;
-	t_sigaction action;
+	char		*msg;
+	pid_t		pid;
+	int			i;
+	int			j;
+	t_sigaction	action;
 
 	if (argc != 3)
 		return (1);
 	pid = atoi(argv[1]);
 	msg = argv[2];
-	binstr = msg;
 	i = 0;
 	j = 7;
 	printf("PID : %d\n", getpid());
@@ -62,7 +51,7 @@ int	main(int argc, char **argv)
 				printf("SIGUSR1 : %d\n", ((msg[i] >> j) & 1));
 				kill(pid, SIGUSR1);
 			}
-			while(know != 0)
+			while (know != 0)
 				pause();
 			know = 1;
 			j--;

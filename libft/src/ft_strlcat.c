@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:37:39 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 18:58:51 by egache           ###   ########.fr       */
+/*   Created: 2024/11/18 14:47:06 by egache            #+#    #+#             */
+/*   Updated: 2024/11/27 16:36:54 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# define _POSIX_C_SOURCE 200809L
-
-# include "ft_printf.h"
-# include "libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct sigaction	t_sigaction;
-
-volatile sig_atomic_t		know = 1;
-
-typedef struct s_lst
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	void					*value;
-	struct s_list			*next;
-}							t_lst;
+	size_t	i;
+	size_t	j;
 
-#endif
+	i = 0;
+	j = 0;
+	while (dest[j] && j < size)
+		j++;
+	if (j == size)
+		return (j + ft_strlen((char *)src));
+	while (src[i] && ((i + j + 1) < size))
+	{
+		dest[j + i] = src[i];
+		i++;
+	}
+	dest[i + j] = '\0';
+	return (j + ft_strlen((char *)src));
+}
