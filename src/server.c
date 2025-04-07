@@ -6,61 +6,78 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:41:25 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 19:12:49 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:10:55 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	list_char(t_list *lst, int c)
+void	list_char(int c)
 {
-	t_list	*newnode;
-	int		*c_ptr;
-	t_list	*current;
+	static t_list	*lst = NULL;
+	t_list			*new_node;
+	int				*c_ptr;
+	t_list			*tmp;
 
 	c_ptr = malloc(sizeof(int));
 	*c_ptr = c;
-	newnode = ft_lstnew(c_ptr);
-	ft_lstadd_back(&lst, newnode);
-	current = lst;
-	while (current != NULL)
+	new_node = ft_lstnew(c_ptr);
+	ft_lstadd_back(&lst, new_node);
+	if (c == '\0')
 	{
-		printf("%d -> ", *((int *)current->content));
-		current = current->next;
+		tmp = lst;
+		while (tmp)
+		{
+			ft_printf("%c", *((int *)tmp->content));
+			tmp = tmp->next;
+		}
+		ft_lstclear(lst, );
 	}
-	printf("NULL\n");
-	lst = lst->next;
-	return ;
+	//printf("\nNouveau caractère: %c\n", c);
+	// while (tmp)
+	// {
+	// 	printf("%c -> ", *((int *)tmp->content));
+	// 	tmp = tmp->next;
+	// }
+	//printf("NULL\n");
 }
 
 void	stock_bits(int bit)
 {
-	t_list			*lst;
 	static size_t	i = 0;
 	int				j;
-	int				bits[8];
 	int				c;
+	static int		bits[8];
 
-	lst = ft_calloc(1, sizeof(t_list));
-	if (i < 7)
+	bits[i++] = bit;
+	//printf("\nbits[i] = %d\n", bits[i]);
+	if (i == 8)
 	{
-		bits[i] = bit;
-		printf("\nbits[i] = %d\n", bits[i]);
-		i++;
-	}
-	else
-	{
-		bits[i] = bit;
 		j = 0;
 		c = 0;
+		i = 0;
 		while (j < 8)
 		{
 			c = ((c << 1) | bits[j]);
-			printf("\nbits[j] = %d", bits[j]);
+			//printf("\nbits[j] = %d", bits[j]);
+			//printf(" bits[i] = %d", bits[i]);
 			j++;
+			i++;
 		}
-		list_char(lst, c);
-		printf("\nchar = %c & int value = %d\n", c, c);
+		list_char(c);
+		// c_ptr = malloc(sizeof(int));
+		// *c_ptr = c;
+		// new_node = ft_lstnew(c_ptr);
+		// ft_lstadd_back(&lst, new_node);
+		// printf("\nNouveau caractère: %c\n", c);
+		// tmp = lst;
+		// while (tmp)
+		// {
+		// 	printf("%c -> ", *((int *)tmp->content));
+		// 	tmp = tmp->next;
+		// }
+		// printf("NULL\n");
+		// printf("\nchar = %c & int value = %d\n", c, c);
 		// write(STDOUT_FILENO, &c, 2);
 		i = 0;
 	}

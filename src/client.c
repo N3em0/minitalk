@@ -6,7 +6,7 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:41:31 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 18:35:25 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:06:40 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,25 @@ int	main(int argc, char **argv)
 		}
 		j = 7;
 		i++;
+	}
+	if (msg[i] == '\0' && msg)
+	{
+		while (j >= 0)
+		{
+			if (((msg[i] >> j) & 1) == 0)
+			{
+				printf("SIGUSR2 : %d\n", ((msg[i] >> j) & 1));
+				kill(pid, SIGUSR2);
+			}
+			else if (((msg[i] >> j) & 1) == 1)
+			{
+				printf("SIGUSR1 : %d\n", ((msg[i] >> j) & 1));
+				kill(pid, SIGUSR1);
+			}
+			while (know != 0)
+				pause();
+			know = 1;
+			j--;
+		}
 	}
 }

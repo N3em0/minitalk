@@ -6,7 +6,7 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:32:44 by egache            #+#    #+#             */
-/*   Updated: 2024/11/27 16:35:58 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:18:51 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		if (!newnode)
 		{
 			del(tmp);
-			ft_lstclear(&newlst, del);
+			ft_lst	clear(&newlst, del);
 			return (NULL);
 		}
 		ft_lstadd_back(&newlst, newnode);

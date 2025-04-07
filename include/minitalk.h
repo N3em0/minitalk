@@ -6,7 +6,7 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:37:39 by egache            #+#    #+#             */
-/*   Updated: 2025/03/28 18:58:51 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:44:14 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ typedef struct sigaction	t_sigaction;
 
 volatile sig_atomic_t		know = 1;
 
-typedef struct s_lst
-{
-	void					*value;
-	struct s_list			*next;
-}							t_lst;
+// typedef struct s_lst
+// {
+// 	void					*content;
+// 	struct s_lst			*next;
+// }							t_lst;
 
 #endif
