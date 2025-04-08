@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:41:25 by egache            #+#    #+#             */
-/*   Updated: 2025/04/08 16:31:35 by egache           ###   ########.fr       */
+/*   Created: 2025/04/08 16:27:46 by egache            #+#    #+#             */
+/*   Updated: 2025/04/08 16:28:07 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	del_int(void *content)
 	free((int *)content);
 }
 
-void	list_char(int c)
+int	list_char(int c)
 {
 	static t_list	*lst = NULL;
 	t_list			*new_node;
@@ -39,16 +39,20 @@ void	list_char(int c)
 			tmp = tmp->next;
 		}
 		ft_lstclear(&lst, del_int);
+		return (1);
 	}
+	return (0);
 }
 
-void	stock_bits(int bit)
+int	stock_bits(int bit)
 {
 	static size_t	i = 0;
 	int				j;
 	int				c;
+	int				ret;
 	static int		bits[8];
 
+	ret = 0;
 	bits[i++] = bit;
 	if (i == 8)
 	{
@@ -60,24 +64,32 @@ void	stock_bits(int bit)
 			j++;
 			i++;
 		}
-		list_char(c);
+		if (list_char(c) == 1)
+			ret = 1;
 		i = 0;
 	}
+	return (ret);
 }
 
 void	signal_handler(int signum, siginfo_t *siginfo, void *context)
 {
+	int	ret;
+
+	ret = 0;
 	(void)context;
 	know = 0;
 	if (signum == SIGUSR1)
 	{
-		stock_bits(1);
+		ret = stock_bits(1);
 	}
 	else if (signum == SIGUSR2)
 	{
-		stock_bits(0);
+		ret = stock_bits(0);
 	}
-	kill(siginfo->si_pid, SIGUSR1);
+	if (ret == 0)
+		kill(siginfo->si_pid, SIGUSR1);
+	else
+		kill(siginfo->si_pid, SIGUSR2);
 }
 
 int	main(void)

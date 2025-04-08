@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 11:41:31 by egache            #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:48 by egache           ###   ########.fr       */
+/*   Created: 2025/04/08 16:28:11 by egache            #+#    #+#             */
+/*   Updated: 2025/04/08 16:28:25 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	client_signal_handler(int signum)
 {
-	(void)signum;
+	if (signum == SIGUSR2)
+		ft_printf("Message has been received\n");
 	know = 0;
 }
 void	send_eos(pid_t pid, char c)
