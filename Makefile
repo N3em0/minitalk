@@ -6,7 +6,7 @@
 #    By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 15:58:15 by egache            #+#    #+#              #
-#    Updated: 2025/04/08 16:36:45 by egache           ###   ########.fr        #
+#    Updated: 2025/04/11 18:44:40 by egache           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,9 @@ libft/include					\
 ft_printf/include				\
 
 NAME_CLIENT		:=	client
-NAME_CLIENT_B	:=	client
+NAME_CLIENT_B	:=	client_b
 NAME_SERVER		:=	server
-NAME_SERVER_B	:=	server
+NAME_SERVER_B	:=	server_b
 
 SRC_DIR			:=	src
 
@@ -123,7 +123,7 @@ clean:
 fclean:	clean
 			$(call SEPARATOR)
 			echo "$(BOLDBLUE)$(NAME) $(WHITE)fclean  $(YELLOW)..."
-			$(RM) $(NAME_CLIENT) $(NAME_SERVER)
+			$(RM) $(NAME_CLIENT) $(NAME_SERVER) $(NAME_CLIENT_B) $(NAME_SERVER_B)
 			$(MAKE) fclean -C libft
 			$(MAKE) fclean -C ft_printf
 			$(call SEPARATOR)
