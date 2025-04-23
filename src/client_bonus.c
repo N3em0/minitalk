@@ -6,11 +6,13 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:28:11 by egache            #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:25 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/24 01:43:16 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+volatile sig_atomic_t	know = 1;
 
 void	client_signal_handler(int signum)
 {

@@ -6,7 +6,7 @@
 #    By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 17:59:37 by teatime           #+#    #+#              #
-#    Updated: 2025/03/11 21:49:54 by egache           ###   ########.fr        #
+#    Updated: 2025/04/23 22:03:10 by egache           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,4 +102,4 @@ re				:
 
 .PHONY			:	all clean fclean re
 
-.SILENT			:
+#.SILENT			:

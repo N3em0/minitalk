@@ -6,15 +6,25 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:27:46 by egache            #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:07 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/24 01:42:40 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	del_int(void *content)
+volatile sig_atomic_t	know = 1;
+
+void	write_message(t_list *lst)
 {
-	free((int *)content);
+	t_list	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		ft_printf("%c", *((int *)tmp->content));
+		tmp = tmp->next;
+	}
+	ft_lstclear(&tmp, del_int);
 }
 
 int	list_char(int c)
@@ -22,22 +32,22 @@ int	list_char(int c)
 	static t_list	*lst = NULL;
 	t_list			*new_node;
 	int				*c_ptr;
-	t_list			*tmp;
 
 	c_ptr = malloc(sizeof(int));
-	if (!c_ptr)
-		free(c_ptr);
+	if (c_ptr == NULL)
+		exit(EXIT_FAILURE);
 	*c_ptr = c;
 	new_node = ft_lstnew(c_ptr);
+	if (new_node == NULL)
+	{
+		ft_lstclear(&lst, del_int);
+		free(c_ptr);
+		exit(EXIT_FAILURE);
+	}
 	ft_lstadd_back(&lst, new_node);
 	if (c == '\0')
 	{
-		tmp = lst;
-		while (tmp)
-		{
-			ft_printf("%c", *((int *)tmp->content));
-			tmp = tmp->next;
-		}
+		write_message(lst);
 		ft_lstclear(&lst, del_int);
 		return (1);
 	}
@@ -53,7 +63,8 @@ int	stock_bits(int bit)
 	static int		bits[8];
 
 	ret = 0;
-	bits[i++] = bit;
+	bits[i] = bit;
+	i++;
 	if (i == 8)
 	{
 		j = 0;
