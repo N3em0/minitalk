@@ -6,13 +6,13 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:27:46 by egache            #+#    #+#             */
-/*   Updated: 2025/04/24 01:42:40 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/24 23:13:58 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-volatile sig_atomic_t	know = 1;
+volatile sig_atomic_t	g_know = 1;
 
 void	write_message(t_list *lst)
 {
@@ -48,6 +48,7 @@ int	list_char(int c)
 	if (c == '\0')
 	{
 		write_message(lst);
+		write(1, "\n", 1);
 		ft_lstclear(&lst, del_int);
 		return (1);
 	}
@@ -88,7 +89,7 @@ void	signal_handler(int signum, siginfo_t *siginfo, void *context)
 
 	ret = 0;
 	(void)context;
-	know = 0;
+	g_know = 0;
 	if (signum == SIGUSR1)
 	{
 		ret = stock_bits(1);
@@ -103,10 +104,16 @@ void	signal_handler(int signum, siginfo_t *siginfo, void *context)
 		kill(siginfo->si_pid, SIGUSR2);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_sigaction	action;
 
+	(void)argv;
+	if (argc != 1)
+	{
+		ft_putendl_fd("Error\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	ft_printf("PID : %d\n", getpid());
 	action.sa_sigaction = signal_handler;
 	sigemptyset(&action.sa_mask);
@@ -115,9 +122,9 @@ int	main(void)
 	sigaction(SIGUSR2, &action, NULL);
 	while (1)
 	{
-		while (know != 0)
+		while (g_know != 0)
 			pause();
-		know = 1;
+		g_know = 1;
 	}
 	return (0);
 }

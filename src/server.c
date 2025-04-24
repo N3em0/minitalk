@@ -6,13 +6,13 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:41:25 by egache            #+#    #+#             */
-/*   Updated: 2025/04/24 01:46:54 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/24 23:13:41 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-volatile sig_atomic_t	know = 1;
+volatile sig_atomic_t	g_know = 1;
 
 void	write_message(t_list *lst)
 {
@@ -79,7 +79,7 @@ void	stock_bits(int bit)
 void	signal_handler(int signum, siginfo_t *siginfo, void *context)
 {
 	(void)context;
-	know = 0;
+	g_know = 0;
 	if (signum == SIGUSR1)
 	{
 		stock_bits(1);
@@ -91,10 +91,16 @@ void	signal_handler(int signum, siginfo_t *siginfo, void *context)
 	kill(siginfo->si_pid, SIGUSR1);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_sigaction	action;
 
+	(void)argv;
+	if (argc != 1)
+	{
+		ft_putendl_fd("Error\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	ft_printf("PID : %d\n", getpid());
 	action.sa_sigaction = signal_handler;
 	sigemptyset(&action.sa_mask);
@@ -103,9 +109,9 @@ int	main(void)
 	sigaction(SIGUSR2, &action, NULL);
 	while (1)
 	{
-		while (know != 0)
+		while (g_know != 0)
 			pause();
-		know = 1;
+		g_know = 1;
 	}
 	return (0);
 }
