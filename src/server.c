@@ -6,7 +6,7 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:41:25 by egache            #+#    #+#             */
-/*   Updated: 2025/04/24 23:13:41 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/25 17:22:19 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	list_char(int c)
 	if (c == '\0')
 	{
 		write_message(lst);
+		write(1, "\n", 1);
 		ft_lstclear(&lst, del_int);
 	}
 }
