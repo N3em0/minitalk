@@ -6,7 +6,7 @@
 /*   By: egache <egache@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:41:31 by egache            #+#    #+#             */
-/*   Updated: 2025/04/25 16:03:16 by egache           ###   ########.fr       */
+/*   Updated: 2025/04/25 17:36:39 by egache           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int argc, char **argv)
 	pid = ft_atoi(argv[1]);
 	if (pid <= 0)
 	{
-		ft_putendl_fd("Error\n", 2);
+		ft_putendl_fd("Error", 2);
 		exit(EXIT_FAILURE);
 	}
 	action.sa_handler = client_signal_handler;
